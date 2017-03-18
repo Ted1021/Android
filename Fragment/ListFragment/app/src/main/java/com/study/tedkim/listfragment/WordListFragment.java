@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -93,8 +92,6 @@ public class WordListFragment extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String answer = WORDS.get(position) + " : " + DESC.get(position);
-                Toast.makeText(getActivity(), answer, Toast.LENGTH_SHORT).show();
 
                 mEventListener.onItemClicked(position);
             }
