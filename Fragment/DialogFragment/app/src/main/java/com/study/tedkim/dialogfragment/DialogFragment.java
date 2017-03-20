@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,14 @@ import android.widget.RadioGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ *
+ *  Dialog Fragment
+ *
+ *  android 에서 제공하는 Dialog Fragment 를 상속 받음으로써
+ *  프래그먼트의 레이아웃을 시스템 대화 상자처럼 사용할 수 있다
+ *
+ *  onCreateDialog() 를 사용하는것이 핵심이다.
+ *
  */
 public class DialogFragment extends android.support.v4.app.DialogFragment implements View.OnClickListener{
 
@@ -78,11 +84,14 @@ public class DialogFragment extends android.support.v4.app.DialogFragment implem
 
     }
 
+    // onCreateView() 에서 완전히 생성된 Fragment 의 레이아웃을 System Dialog 에 집어넣는 과정이다.
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+        // 1. 새로운 Dialog 생성
         Dialog dialog = new Dialog(getActivity());
+        // 2. 생성한 Dialog 에 onCreateView() 를 통해 inflate 된 fragment 의 layout 을 대입한다.
         dialog.setContentView(R.layout.fragment_dialog);
 
         return dialog;
