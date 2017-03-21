@@ -1,5 +1,6 @@
 package com.study.tedkim.dialogfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DialogFragment.OnDataSetListener {
 
     Button btnDialog;
+    Button btnGoActivity;
 
     TextView tvData;
 
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnDialog = (Button) findViewById(R.id.button_dialog);
         btnDialog.setOnClickListener(this);
+
+        btnGoActivity = (Button) findViewById(R.id.button_go_activity);
+        btnGoActivity.setOnClickListener(this);
 
         tvData = (TextView) findViewById(R.id.textView_name);
     }
@@ -68,6 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.button_dialog:
                 setFragment();
+                break;
+
+            case R.id.button_go_activity:
+                Intent intent = new Intent(this, SecondActivity.class);
+                startActivity(intent);
+
                 break;
 
         }
