@@ -61,7 +61,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
 
         // 1. GroupList 의 Item 에 담을 Data 를 가져온다.
-        String groupName = (String) getGroup(groupPosition);
+        String groupName = mGroupList.get(groupPosition);
 
         // 2. convertView 가 존재하지 않는다면,
         if(convertView == null) {
@@ -106,7 +106,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
         // 1. childList 의 Item 에 담을 Data 를 가져온다.
-        String childDesc = (String) getChild(groupPosition, childPosition);
+        String childDesc = mChildList.get(groupPosition).get(childPosition);
 
         // 2. convertView 가 존재하지 않는다면,
         if(convertView == null){
