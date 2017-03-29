@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+
+    android:orientation="vertical"
+    tools:context="com.study.tedkim.progressbar.MainActivity"
+    android:weightSum="1">
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar_horizontal"
+        android:layout_weight="0.04"
+        android:max="100"
+        android:progress="0"
+        android:secondaryProgress="1"
+        android:visibility="visible"
+        android:indeterminate="false" />
+
+    <TextView
+        android:text="0 %"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_percentage"
+
+        android:layout_gravity="right"
+        android:layout_weight="0.04" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar_circle"
+        android:layout_weight="0.04"
+        android:visibility="invisible" />
+
+    <Button
+        android:text="Excute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_excute"
+        android:layout_weight="0.04" />
+
+    <Button
+        android:text="Initiate ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_init"
+        android:layout_weight="0.04" />
+
+</LinearLayout>
