@@ -27,9 +27,12 @@
             android:layout_height="match_parent"
             android:text="pane_2"
             android:background="@android:color/holo_blue_light"
+            android:layout_marginLeft="64dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1">
 
         </TextView>
+
+
 
     </android.support.v4.widget.SlidingPaneLayout>
 

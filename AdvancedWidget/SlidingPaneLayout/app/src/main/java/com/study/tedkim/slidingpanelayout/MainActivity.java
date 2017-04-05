@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         slidingPannel = (SlidingPaneLayout) findViewById(R.id.sliding_pane_layout);
 
+
     }
 
 }
