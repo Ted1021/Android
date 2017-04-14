@@ -38,4 +38,24 @@
         android:layout_below="@+id/button_dial"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Web"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_contact"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:id="@+id/button_web" />
+
+    <Button
+        android:text="Gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_web"
+        android:layout_alignRight="@+id/button_web"
+        android:layout_alignEnd="@+id/button_web"
+        android:layout_marginTop="20dp"
+        android:id="@+id/button_gallery" />
 </RelativeLayout>
