@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button btnGallery = (Button) findViewById(R.id.button_gallery);
         btnGallery.setOnClickListener(this);
+
+        Button btnCallAdder = (Button) findViewById(R.id.button_call_adder);
+        btnCallAdder.setOnClickListener(this);
     }
 
     // 각각의 버튼을 클릭하면 특정 ACTIVITY 를 불러오는 onClick 리스너 작성
@@ -115,6 +118,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 // 5.3 PICK 의 결과 값으로 전달 받은 이미지를 새로운 View 에 불러온다
                 startActivityForResult(intent, ACTION_CALL_GALLERY);
+
+                break;
+
+            // 6. Custom Activity 를 암시적 인텐트로 호출하기
+            case R.id.button_call_adder:
+
+                // 6.1 인텐트의 파라미터로 직접 작성한 Activity 를 삽입한다.
+                // 이는 직접 작성한 Activity 의 manifests 파일에서 intent filter 에서 선언한다
+                intent = new Intent("com.study.tedkim.intent_filter.adder");
+
+                // 6.2 덧셈을 위한 인자로 1 과 3을 보내준다
+                intent.putExtra("FIRST", 1);
+                intent.putExtra("SECOND", 3);
+
+                // 6.3 초기화 된 Intent 로 새로운 Activity 를 시작한다
+                startActivity(intent);
 
                 break;
 
