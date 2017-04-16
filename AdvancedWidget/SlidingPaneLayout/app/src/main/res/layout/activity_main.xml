@@ -22,18 +22,19 @@
 
         </TextView>
 
-        <TextView
-            android:layout_width="400dp"
-            android:layout_height="match_parent"
-            android:text="pane_2"
-            android:background="@android:color/holo_blue_light"
-            android:layout_marginLeft="64dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1">
-
-        </TextView>
-
-
 
     </android.support.v4.widget.SlidingPaneLayout>
+
+    <TextView
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:text="pane_2"
+        android:background="@android:color/holo_blue_light"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    </TextView>
 
 </RelativeLayout>
