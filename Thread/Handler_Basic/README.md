@@ -12,7 +12,7 @@
 >
 > 둘째, 외부에 존재하는 Thread 와 통신 할 수 있도록 만들어 준다.
 
-##### 1) Message 객체
+#### 1) Message 객체
 
 > Handler 는 기본적으로 ___Message 객체___ 를 주고 받는다.
 >
@@ -34,7 +34,7 @@
 
 <br>
 
-##### 2) __발신자와 수신자__
+#### 2) __발신자와 수신자__
 
 > ___Message___ 라는 단어로 부터도 알 수 있듯이, 
 >
@@ -56,7 +56,7 @@
 >
 > ___발신자와 수신자___ 가 정의 되면 각각 구현해야 할 내용은 다음과 같다.
 
-##### 1) __수신자 (Receiver)__
+#### 1) __수신자 (Receiver)__
 
 - ___Handler 부착___
 
@@ -98,7 +98,7 @@ Handler mHandler = new Handler(){
 
 <br>
 
-##### 2) __발신자 (Sender)__
+#### 2) __발신자 (Sender)__
 
 - ___Handler.sendEmptyMessage(int what)___ 또는 ___Handler.sendMessage(Message message)___ 구현
 
