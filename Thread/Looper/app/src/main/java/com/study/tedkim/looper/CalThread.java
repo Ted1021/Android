@@ -9,51 +9,61 @@ import android.os.Message;
 
 public class CalThread extends Thread {
 
-    Handler mMainHandler, mSubHandler;
-
+    Handler mCalHandler;
+    public static Handler mOrderHandler;
 
     public CalThread(Handler handler){
 
-        mMainHandler = handler;
-        math();
-
+        mCalHandler = handler;
     }
 
-    public void math(){
+    @Override
+    public void run() {
+        super.run();
 
+        // 외부 클래스에서 메세지를 핸들링 하기 위해서는
+        // 큐를 관리하는 루퍼(Looper)가 필요하다
+        // 사용법은 매우 간단!
+        // 메세지를 받기 전에 루퍼를 준비(prepare) 하고
+        // 마지막에 루퍼를 실행(loop) 시킴으로써 구현 가능하다
+
+        // 1. 루퍼(Looper) 를 준비(Prepare) 시킨다
         Looper.prepare();
-        mSubHandler = new Handler(){
+
+        mOrderHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
 
-                double num = msg.arg1;
-                double result=0;
-
-                Message returnMsg = new Message();
+                Message rtnMsg = new Message();
 
                 switch(msg.what){
 
-                    case MainActivity.SQUARE:
+                    case MainActivity.ROOT:
 
-                        result = Math.pow(num,2);
-                        returnMsg.what = 1;
-                        returnMsg.obj = result;
+                        rtnMsg.what = MainActivity.ROOT;
+                        rtnMsg.arg1 = (int)Math.sqrt(msg.arg1);
 
                         break;
 
-                    case MainActivity.ROOT:
+                    case MainActivity.SQUARE:
 
-                        result = Math.sqrt(num);
-                        returnMsg.what = 1;
-                        returnMsg.obj = result;
+                        rtnMsg.what = MainActivity.SQUARE;
+                        rtnMsg.arg1 = (int)Math.pow(msg.arg1, 2);
 
+                        break;
+
+                    default:
+
+                        rtnMsg.what = -1;
                         break;
                 }
 
-                mMainHandler.sendMessage(returnMsg);
+                mCalHandler.sendMessage(rtnMsg);
             }
         };
+
+        // 2. 루퍼를 동작(loop) 시킨다
         Looper.loop();
     }
 }
