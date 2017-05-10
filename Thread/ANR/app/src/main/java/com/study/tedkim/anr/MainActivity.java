@@ -15,7 +15,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnIncrease, btnUpload;
 
     static final int EXECUTE = 101;
+    static final int FAIL = 404;
+
     int mNum=0;
+    boolean statusUpload = false;
 
     // 이렇게하면 어느 쓰레드에 부착이 된 것이라 볼 수 있는가?? (수신자 쓰레드는 무엇?)
     CustomHandler mHandler;
@@ -57,8 +60,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.button_upload:
 
+                if(statusUpload){
+                    Toast.makeText(MainActivity.this, "uploading is fail...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Anti_ANR_Thread mThread = new Anti_ANR_Thread();
                 mThread.setDaemon(true);
+                statusUpload = true;
                 mThread.start();
 
                 break;
@@ -86,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             switch(msg.what){
 
+                // 결과
                 case EXECUTE:
 
                     Toast.makeText(MainActivity.this, "uploading is complete!!", Toast.LENGTH_SHORT).show();
@@ -93,9 +103,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
 
             }
+            statusUpload = false;
         }
     }
 
+    // 작업
     public void exeUpload(){
 
         for(int i=0; i<20; i++) {
