@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initView();
 
+        testFileWrite();
+        testFileRead();
     }
 
     @Override
@@ -66,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void fileWrite(String str) {
 
+        String targetPath = getFileStreamPath(FILENAME).getAbsolutePath();
+        File file = new File(targetPath);
+        Log.e("check absolutePath >>>>", targetPath);
+
         try {
 
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
@@ -91,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // TODO - Byte 가 아냐!! byte 다...
             byte[] buf = new byte[fis.available()];
 
-            while (fis.read(buf) != -1) ;
+            while (fis.read(buf) != -1);
             fis.close();
 
             mLoad = new String(buf);
@@ -119,4 +127,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDelete.setOnClickListener(this);
 
     }
+
+    public void testFileWrite(){
+
+        String contents = "this is test of binary file I/O";
+        try{
+
+            File testFile = new File(getFilesDir(), FILENAME);
+
+            if(!testFile.exists())
+                testFile.createNewFile();
+
+//            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            FileOutputStream fos = new FileOutputStream(testFile);
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+
+            fos.write(contents.getBytes());
+
+            bos.close();
+            fos.close();
+
+            Log.i("TEST",">>>>>>>"+"AbsPath"+testFile.getAbsolutePath());
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        Log.i("TEST",">>>>>>>"+"File Write Complete !!");
+
+    }
+
+    public void testFileRead(){
+        try{
+
+            File testFile = new File(getFilesDir(), FILENAME);
+
+            if(!testFile.exists())
+                return;
+
+//            FileInputStream fis = openFileInput(FILENAME);
+            FileInputStream fis = new FileInputStream(testFile);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+
+            byte[] buf = new byte[fis.available()];
+            while(fis.read(buf) != -1);
+
+            bis.close();
+            fis.close();
+
+            Log.i("TEST",">>>>>>>"+new String(buf));
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 }
