@@ -1,6 +1,5 @@
 package com.study.tedkim.file_input_output;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -31,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         initView();
-
-        testFileWrite();
-        testFileRead();
     }
 
     @Override
@@ -44,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_save:
 
                 mSave = etEditString.getText().toString();
-                fileWrite(mSave);
+                fileWrite();
 
                 break;
 
@@ -68,46 +64,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void fileWrite(String str) {
+    // 1. binary 파일 생성
+    public void fileWrite(){
 
-        String targetPath = getFileStreamPath(FILENAME).getAbsolutePath();
-        File file = new File(targetPath);
-        Log.e("check absolutePath >>>>", targetPath);
+        String contents = "this is test of binary file I/O";
 
-        try {
+        try{
 
-            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            fos.write(str.getBytes());
+            // 1.1 File Descriptor 를 생성 할 때에는 꼭 "getFilesFir()" 을 매개 변수로 전달 해야 한다
+            File testFile = new File(getFilesDir(), FILENAME);
+
+            // 2. File 이 존재 하는지 판단한다
+            if(!testFile.exists())
+                testFile.createNewFile();
+
+            // 3. 생성 된 파일을 바탕으로 FileStream 을 열어준다
+            // way_1) "openFileOutput" Method 를 불러온다 (getFilesDir 을 이용해 Desc 를 생성하지 않는 경우,)
+//            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+
+            // way_2) 새로운 FileStream 을 생성 한다
+            FileOutputStream fos = new FileOutputStream(testFile);
+            // 4. 속도 효율을 위해 File Buffer 를 생성한다
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+
+            // 5. 파일을 새로이 쓴다
+            // 5.1 String 을 Binary 형태로 변환 한다
+            fos.write(contents.getBytes());
+
+            // 6. File Buffer 와 File Stream 을 닫아준다
+            bos.close();
             fos.close();
 
-            Log.e("getPath >>>>>>>", getFileStreamPath(FILENAME).getAbsolutePath());
-            Toast.makeText(MainActivity.this, "Save Success !!", Toast.LENGTH_SHORT).show();
+            Log.i("TEST",">>>>>>>"+"AbsPath"+testFile.getAbsolutePath());
 
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
-            Toast.makeText(MainActivity.this, "Save Fail... !!", Toast.LENGTH_SHORT).show();
-
         }
+
+        Log.i("TEST",">>>>>>>"+"File Write Complete !!");
 
     }
 
-    public void fileRead() {
+    // binary 파일 읽기
+    public void fileRead(){
+        try{
 
-        try {
+            // 1. File Write 와 마찬가지로 "getFilesDir()" 을 이용해 앱의 저장 경로를 가져온다
+            File testFile = new File(getFilesDir(), FILENAME);
 
-            FileInputStream fis = openFileInput(FILENAME);
-            // TODO - Byte 가 아냐!! byte 다...
+            // 2. File 이 존재 하는지 알아보고 예외 처리를 해 준다
+            if(!testFile.exists()){
+                Toast.makeText(MainActivity.this, "File doesn't exist", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // 3. 존재하는 파일을 불러오는 File Stream 을 생성한다
+            // way_1) "OpenFileInput()" Method 를 불러온다 ("getFilesDir()" 로 desc 를 생성하지 않은 경우,)
+//            FileInputStream fis = openFileInput(FILENAME);
+
+            // way_2) FileInputStream 을 새로이 생성한다
+            FileInputStream fis = new FileInputStream(testFile);
+            // 4. 읽기 속도 향상을 위해 File Buffer 를 생성한다
+            BufferedInputStream bis = new BufferedInputStream(fis);
+
+            // 5. binary File 을 읽어온다
+            // 5.1 File Stream 의 크기만큼 byte 배열을 동적 생성 한다
             byte[] buf = new byte[fis.available()];
+            // 5.2 File Stream 의 끝까지 순차적으로 읽어온다
+            while(fis.read(buf) != -1);
 
-            while (fis.read(buf) != -1);
+            // 6. File Buffer 와 File Stream 을 순차적으로 닫아준다
+            bis.close();
             fis.close();
 
-            mLoad = new String(buf);
+            Log.i("TEST",">>>>>>>"+new String(buf));
 
-        } catch (Exception e) {
+        }catch(Exception e){
             e.printStackTrace();
-            Toast.makeText(MainActivity.this, "File Read Fail...", Toast.LENGTH_SHORT).show();
-
         }
 
     }
@@ -127,60 +160,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDelete.setOnClickListener(this);
 
     }
-
-    public void testFileWrite(){
-
-        String contents = "this is test of binary file I/O";
-        try{
-
-            File testFile = new File(getFilesDir(), FILENAME);
-
-            if(!testFile.exists())
-                testFile.createNewFile();
-
-//            FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            FileOutputStream fos = new FileOutputStream(testFile);
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-
-            fos.write(contents.getBytes());
-
-            bos.close();
-            fos.close();
-
-            Log.i("TEST",">>>>>>>"+"AbsPath"+testFile.getAbsolutePath());
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        Log.i("TEST",">>>>>>>"+"File Write Complete !!");
-
-    }
-
-    public void testFileRead(){
-        try{
-
-            File testFile = new File(getFilesDir(), FILENAME);
-
-            if(!testFile.exists())
-                return;
-
-//            FileInputStream fis = openFileInput(FILENAME);
-            FileInputStream fis = new FileInputStream(testFile);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-
-            byte[] buf = new byte[fis.available()];
-            while(fis.read(buf) != -1);
-
-            bis.close();
-            fis.close();
-
-            Log.i("TEST",">>>>>>>"+new String(buf));
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
 }
