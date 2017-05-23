@@ -12,6 +12,10 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.study.tedkim.file_managing.MainActivity.EVENT;
+import static com.study.tedkim.file_managing.MainActivity.mCurrentPath;
+import static com.study.tedkim.file_managing.MainActivity.mHandler;
+
 /**
  * Created by tedkim on 2017. 5. 23..
  */
@@ -70,19 +74,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Toast.makeText(mContext, position+" is Clicked!!", Toast.LENGTH_SHORT).show();
                 // TODO - item click listener interface 구현 해 볼 것.
                 // TODO - 이걸 Handler 로 하다니 ㅋㅋㅋㅋㅋㅋㅋ
-                String path = mDataSet.get(position);
+                String path = mCurrentPath + "/" + mDataSet.get(position);
                 File dir = new File(path);
-                if(!dir.isDirectory()){
+                if(dir.isDirectory()){
 
                     path = path.substring(1, path.length()-1);
-                    MainActivity.mCurrentPath = path;
+                    mCurrentPath = path;
 
                     Toast.makeText(mContext, path, Toast.LENGTH_SHORT).show();
 
-                    MainActivity.mHandler.sendEmptyMessage(MainActivity.EVENT);
+                    mHandler.sendEmptyMessage(EVENT);
                 }
                 else
-                    Toast.makeText(mContext, dir.getAbsolutePath() , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "!!!!" + dir.getAbsolutePath() , Toast.LENGTH_SHORT).show();
             }
         });
     }
