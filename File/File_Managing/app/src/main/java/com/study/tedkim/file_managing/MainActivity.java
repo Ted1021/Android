@@ -104,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     int end = mCurrentPath.lastIndexOf("/");
                     mCurrentPath = mCurrentPath.substring(0, end);
-
                     refreshFiles();
                 }
                 else
@@ -120,8 +119,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvCurrentPath.setText(mCurrentPath);
         mDataSet.clear();
 
+        // 여기가 핵심!!
         File currentState = new File(mCurrentPath);
+        // Linux 로 치면 'ls-l' 과 같은 효과
         String[] files = currentState.list();
+
         if(files != null){
             for(int i=0; i<files.length; i++){
 

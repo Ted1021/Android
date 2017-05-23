@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import static com.study.tedkim.file_managing.MainActivity.EVENT;
@@ -71,22 +70,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(mContext, position+" is Clicked!!", Toast.LENGTH_SHORT).show();
                 // TODO - item click listener interface 구현 해 볼 것.
                 // TODO - 이걸 Handler 로 하다니 ㅋㅋㅋㅋㅋㅋㅋ
-                String path = mCurrentPath + "/" + mDataSet.get(position);
-                File dir = new File(path);
-                if(dir.isDirectory()){
+
+                String path = mDataSet.get(position);
+                if(path.startsWith("[") && path.endsWith("]")){
 
                     path = path.substring(1, path.length()-1);
-                    mCurrentPath = path;
-
-                    Toast.makeText(mContext, path, Toast.LENGTH_SHORT).show();
-
+                    mCurrentPath = mCurrentPath + "/" + path;
                     mHandler.sendEmptyMessage(EVENT);
                 }
                 else
-                    Toast.makeText(mContext, "!!!!" + dir.getAbsolutePath() , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "this is not DIRECTORY..."  , Toast.LENGTH_SHORT).show();
             }
         });
     }
