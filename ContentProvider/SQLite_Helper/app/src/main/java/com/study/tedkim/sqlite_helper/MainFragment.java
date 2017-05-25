@@ -118,7 +118,7 @@ public class MainFragment extends Fragment implements FragmentImpl, View.OnClick
                 String updateWord = etWord.getText().toString();
 
                 db = mHelper.getWritableDatabase();
-                db.execSQL("UPDATE myDictionary dir SET dir.eng ='"+updateWord+"' WHERE dir.kor = '태원';");
+                db.execSQL("UPDATE myDictionary SET eng='"+updateWord+"' WHERE kor='태원';");
                 mHelper.close();
 
                 Toast.makeText(getActivity(), "Data is Successfully updated !! ", Toast.LENGTH_SHORT).show();
