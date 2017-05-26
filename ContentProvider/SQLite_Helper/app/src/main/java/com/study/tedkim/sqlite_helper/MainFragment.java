@@ -91,9 +91,12 @@ public class MainFragment extends Fragment implements FragmentImpl, View.OnClick
             case R.id.button_insert:
 
                 db = mHelper.getWritableDatabase();
+
+                // TODO - 데이터 초기화 클래스를 별도로 만들어 볼 것
                 db.execSQL("INSERT INTO myDictionary VALUES (null, 'desk', '책상');");
                 db.execSQL("INSERT INTO myDictionary VALUES (null, 'ted', '태원');");
                 db.execSQL("INSERT INTO myDictionary VALUES (null, 'alice', '윤지');");
+
                 mHelper.close();
 
                 Toast.makeText(getActivity(), "Data is successfully inserted !!", Toast.LENGTH_SHORT).show();
@@ -102,6 +105,7 @@ public class MainFragment extends Fragment implements FragmentImpl, View.OnClick
 
             case R.id.button_delete:
 
+                // TODO - 특정 단어만 선택적으로 삭제 할 수 있는 로직 구현 필요
                 String deleteWord = etWord.getText().toString();
 
                 db = mHelper.getWritableDatabase();

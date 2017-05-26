@@ -33,5 +33,4 @@ public class MainActivity extends AppCompatActivity implements FragmentImpl {
         transaction.commit();
 
     }
-
 }
