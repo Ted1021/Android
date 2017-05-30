@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode==0){
 
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+//            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences pref = getSharedPreferences("setting", MODE_PRIVATE);
             String userName = pref.getString("userName", " - ");
             Boolean gender = pref.getBoolean("userGender", false);
 
