@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // 5. 파일을 새로이 쓴다
             // 5.1 String 을 Binary 형태로 변환 한다
-            fos.write(contents.getBytes());
+            bos.write(contents.getBytes());
 
             // 6. File Buffer 와 File Stream 을 닫아준다
             bos.close();
