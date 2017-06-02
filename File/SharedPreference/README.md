@@ -34,7 +34,7 @@ public void setPreference(){
   // 2. XML 파일 내의 Contents 를 작성 할 수 있는 Editor 를 생성한다.
   SharedPreference.Editor pEditor = pref.edit();
   // 3. 저장 될 데이터는 Key 와 Value 의 쌍으로 저장되게 된다.
-  pEditor.setString(KEY, VALUE);
+  pEditor.putString(KEY, VALUE);
   // 4. 이후에는 Key 값 만으로 해당 정보를 가져와 쓸 수 있다.
   pEditor.getString(KEY, DEFAULT VALUE);
   
