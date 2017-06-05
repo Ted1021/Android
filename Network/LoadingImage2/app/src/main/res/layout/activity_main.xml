@@ -15,10 +15,16 @@
     tools:context="com.study.tedkim.loadingimage2.MainActivity">
 
     <Button
-        android:text="Button"
+        android:text="load"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button_loadImage" />
+
+    <Button
+        android:text="delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_delete" />
 
     <ImageView
         android:layout_width="match_parent"

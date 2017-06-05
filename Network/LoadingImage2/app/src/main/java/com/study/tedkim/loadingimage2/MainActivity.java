@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,10 +20,12 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button btnLoadIamge;
+    Button btnLoadIamge, btnDelete;
     ImageView ivImage;
 
     static final String TARGET_URL = "https://www.fingo.vn/cdn/images/logo.png";
+
+    File mFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnLoadIamge = (Button) findViewById(R.id.button_loadImage);
         btnLoadIamge.setOnClickListener(this);
+
+        btnDelete = (Button) findViewById(R.id.button_delete);
+        btnDelete.setOnClickListener(this);
 
         ivImage = (ImageView) findViewById(R.id.imageView_image);
 
@@ -53,19 +59,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // extract fileName from url (dir)
                 String fileName = TARGET_URL.substring(index);
                 // obtain file descriptor based on fileName
-                File file = new File(getFilesDir(), fileName);
+                File mFile = new File(getFilesDir(), fileName);
 
-                if(file.exists()){
+                if(mFile.exists()){
 
                     Toast.makeText(MainActivity.this, "File already exists!!", Toast.LENGTH_SHORT).show();
-                    getFile(file);
+                    getFile(mFile);
 
                 }
                 else{
 
                     Toast.makeText(MainActivity.this, "File doesn't exists!! Now on downloading ...", Toast.LENGTH_SHORT).show();
-                    setFile(file);
+                    setFile(mFile);
                 }
+                break;
+
+            case R.id.button_delete:
+
+
                 break;
 
         }
@@ -91,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FileOutputStream fos = new FileOutputStream(file);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
 
+            Log.e("FILE_PATH", ">>>>>>>>"+file.getAbsolutePath());
+
+
             bos.write(bitmap.getRowBytes());
             ivImage.setImageBitmap(bitmap);
 
@@ -106,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public Bitmap getUrl(){
 
-        new AsyncTask<String, Void, Bitmap>(){
+        new AsyncTask<String, Bitmap, Bitmap>(){
 
             @Override
             protected Bitmap doInBackground(String... params) {
@@ -121,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         InputStream is = connection.getInputStream();
                         Bitmap bitmap = BitmapFactory.decodeStream(is);
 
+                        publishProgress(bitmap);
+
                         is.close();
 
                         return bitmap;
@@ -132,6 +148,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 return null;
+            }
+
+            @Override
+            protected void onProgressUpdate(Bitmap... values) {
+                super.onProgressUpdate(values);
+
+                ivImage.setImageBitmap(values[0]);
+
             }
 
             @Override
