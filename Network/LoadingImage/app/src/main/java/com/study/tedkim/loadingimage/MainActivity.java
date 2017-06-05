@@ -2,6 +2,7 @@ package com.study.tedkim.loadingimage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -55,9 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.button_download:
 
-                mHandler = new ImageHandler();
-                DownloadThread thread = new DownloadThread(TARGET_URL);
-                thread.run();
+                getUrl(TARGET_URL);
 
                 break;
 
@@ -65,32 +64,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void getUrl(final String targetUrl) {
+    public void getUrl(String targetUrl) {
 
-        try {
+        new AsyncTask<String, Bitmap, Void>(){
 
-            URL url = new URL(targetUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-            connection.setRequestMethod("GET");
-            if(connection.getResponseCode() == HTTP_OK){
-
-                InputStream is = connection.getInputStream();
-                // TODO - Bitmap factory 에 대해 알아 볼 것
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
-                is.close();
-
-                Message msg = new Message();
-                msg.what = SEND_IMAGE;
-                msg.obj = bitmap;
-                mHandler.sendMessage(msg);
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            protected Void doInBackground(String... params) {
+
+                try {
+
+                    URL url = new URL(params[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    connection.setRequestMethod("GET");
+                    if(connection.getResponseCode() == HTTP_OK){
+
+                        InputStream is = connection.getInputStream();
+                        // TODO - Bitmap factory 에 대해 알아 볼 것
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                        publishProgress(bitmap);
+
+                        is.close();
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onProgressUpdate(Bitmap... values) {
+                super.onProgressUpdate(values);
+
+                ivImage.setImageBitmap(values[0]);
+
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+
+
+            }
+        }.execute(targetUrl);
     }
+
+
+    /*************************************************/
 
     public class ImageHandler extends Handler{
 
