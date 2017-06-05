@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.ByteBuffer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -50,16 +52,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        int index;
+        String fileName;
+
         switch(v.getId()){
 
             case R.id.button_loadImage:
 
                 // check file from 'TARGET_URL'
-                int index = TARGET_URL.lastIndexOf("/")+1;
+                index = TARGET_URL.lastIndexOf("/")+1;
                 // extract fileName from url (dir)
-                String fileName = TARGET_URL.substring(index);
+                fileName = TARGET_URL.substring(index);
                 // obtain file descriptor based on fileName
-                File mFile = new File(getFilesDir(), fileName);
+                mFile = new File(getFilesDir(), fileName);
 
                 if(mFile.exists()){
 
@@ -75,6 +80,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.button_delete:
+
+                // check file from 'TARGET_URL'
+                index = TARGET_URL.lastIndexOf("/")+1;
+                // extract fileName from url (dir)
+                fileName = TARGET_URL.substring(index);
+                // obtain file descriptor based on fileName
+                mFile = new File(getFilesDir(), fileName);
+
+                if(mFile.exists()) {
+                    mFile.delete();
+                    Toast.makeText(MainActivity.this, "File is deleted", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    Toast.makeText(MainActivity.this, "File doesn't exist", Toast.LENGTH_SHORT).show();
 
 
                 break;
@@ -97,15 +116,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try{
 
             file.createNewFile();
+            Log.e("FILE_PATH", ">>>>>>>>"+file.getAbsolutePath());
+
             Bitmap bitmap = getUrl();
+
+            // TODO - Bitmap 은 2차원 데이터이기 떄문에 다른 Stream 방식을 이용해야 한다
 
             FileOutputStream fos = new FileOutputStream(file);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-            Log.e("FILE_PATH", ">>>>>>>>"+file.getAbsolutePath());
+            int size = bitmap.getRowBytes() * bitmap.getHeight();
+            ByteBuffer byteBuffer = ByteBuffer.allocate(size);
+            bitmap.copyPixelsToBuffer(byteBuffer);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream(size);
+            baos.write(byteBuffer.array());
 
 
-            bos.write(bitmap.getRowBytes());
             ivImage.setImageBitmap(bitmap);
 
             bos.close();
@@ -154,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             protected void onProgressUpdate(Bitmap... values) {
                 super.onProgressUpdate(values);
 
-                ivImage.setImageBitmap(values[0]);
+//                ivImage.setImageBitmap(values[0]);
 
             }
 
@@ -166,6 +193,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         }.execute(TARGET_URL);
+
+        return null;
+    }
+
+    public byte[] bitmapToByte(Bitmap bitmap){
+
+//        int width = bitmap.getWidth();
+//        int height = bitmap.getHeight();
+
+
 
         return null;
     }
