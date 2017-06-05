@@ -85,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     connection.setRequestMethod("GET");
                     if(connection.getResponseCode() == HTTP_OK){
 
+                        // TEXT 형태가 아닌 Binary 형식의 데이터를 받아오기 위해서는
+                        // 단순 inputStream 클래스를 사용한다
                         InputStream is = connection.getInputStream();
                         // TODO - Bitmap factory 에 대해 알아 볼 것
                         Bitmap bitmap = BitmapFactory.decodeStream(is);
