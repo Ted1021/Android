@@ -55,6 +55,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 try{
 
+                    // HtmlURLConnection 을 이용하기 위한 필수 메소드 네가지
+                    // 1. URL.openConnection()  : 특정 URL 에 접근해 connection 객체를 얻는다
+                    // 2. Connection.setRequestMethod()     : 전달받은 URL HOST 에게 요청 할 명령삽입 ex) GET
+                    // 3. Connection.getResponseCode()      : 요청에 대한 Host 의 Response (결과값) 을 체크
+                    // 4. Connection.getInputStream()        : HTML 파일을 InputStream 으로 읽어옴
+
                     URL url = new URL("http://www.google.com");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
