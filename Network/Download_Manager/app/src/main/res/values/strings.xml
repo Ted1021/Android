@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Download_Manager</string>
+    <string name="download_url">http://www.soen.kr/data/child2.jpg</string>
+
+</resources>
