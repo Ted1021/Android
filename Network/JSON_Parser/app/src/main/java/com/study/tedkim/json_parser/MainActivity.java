@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 try {
 
+                    // JSONArray 를 이용한 Parsing
+                    // JSON 파일의 변수명을 이용해 접근 할 수 있다
                     JSONArray ja = new JSONArray(tempJsonArray);
                     for(int i=0; i<tempJsonArray.length(); i++){
 
