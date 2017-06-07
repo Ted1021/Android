@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -120,19 +119,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Bitmap bitmap = getUrl();
 
-            // TODO - Bitmap 은 2차원 데이터이기 떄문에 다른 Stream 방식을 이용해야 한다
+            // TODO - Bitmap 은 2차원 데이터이기 떄문에 추가적인 변환 작업이 필요하다
 
             FileOutputStream fos = new FileOutputStream(file);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-            int size = bitmap.getRowBytes() * bitmap.getHeight();
+            // Convert Bitmap to Binary
+            // TODO - NullPointerException HERE !!!
+            int size = bitmap.getWidth() * bitmap.getHeight();
             ByteBuffer byteBuffer = ByteBuffer.allocate(size);
             bitmap.copyPixelsToBuffer(byteBuffer);
 
-            ByteArrayOutputStream baos = new ByteArrayOutputStream(size);
-            baos.write(byteBuffer.array());
-
-
+            bos.write(byteBuffer.array());
             ivImage.setImageBitmap(bitmap);
 
             bos.close();
