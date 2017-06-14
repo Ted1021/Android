@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 /**
@@ -66,6 +68,7 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
 
         holder.tvParkName.setText(parkName);
         holder.tvParkAddress.setText(parkAddress);
+        Glide.with(mContext).load(imageUrl).into(holder.ivParkImage);
 
     }
 
