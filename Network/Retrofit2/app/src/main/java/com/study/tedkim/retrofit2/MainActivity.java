@@ -2,6 +2,7 @@ package com.study.tedkim.retrofit2;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView rvParkList;
     ParkAdapter mAdapter;
-    RecyclerView.LayoutManager mManager;
+    RecyclerView.LayoutManager mLayoutManager;
 
     ArrayList<ParkData> mDataSet = new ArrayList<>();
 
@@ -23,11 +24,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        initData();
+        setRecyclerView();
     }
 
     // call retrofit2 here
     public void initData(){
+
+
+        mAdapter.notifyDataSetChanged();
 
     }
 
@@ -36,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new ParkAdapter(this, R.layout.park_info_item, mDataSet);
         rvParkList.setAdapter(mAdapter);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        rvParkList.setLayoutManager(mLayoutManager);
 
     }
 }
