@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
     // set park info here
     public void setRecyclerView(){
 
-
+        mAdapter = new ParkAdapter(this, R.layout.park_info_item, mDataSet);
+        rvParkList.setAdapter(mAdapter);
 
     }
 }
