@@ -2,11 +2,12 @@ package com.study.tedkim.retrofit2;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,23 +22,24 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
 
     Context mContext;
     int mLayout;
-    ArrayList<ParkData> mDataSet = new ArrayList<>();
+    ArrayList<ParkData.Row> mDataSet = new ArrayList<>();
     LayoutInflater mInflater;
 
-    public ParkAdapter(Context context, int layout, ArrayList<ParkData> dataSet){
+    public ParkAdapter(Context context, int layout, ArrayList<ParkData.Row> dataSet){
 
         mContext = context;
         mLayout = layout;
         mDataSet = dataSet;
 
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView ivParkImage;
         TextView tvParkName, tvParkAddress;
-        LinearLayout lParkItem;
+        RelativeLayout lParkItem;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -46,7 +48,7 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
             tvParkAddress = (TextView) itemView.findViewById(R.id.textView_parkAddress);
 
             ivParkImage = (ImageView) itemView.findViewById(R.id.imageView_parkImage);
-            lParkItem = (LinearLayout) itemView.findViewById(R.id.liearLayout_parkItem);
+            lParkItem = (RelativeLayout) itemView.findViewById(R.id.layout_parkItem);
         }
     }
 
@@ -62,9 +64,11 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String imageUrl = mDataSet.get(0).getSearchParkInfoService().getRow()[position].getP_IMG();
-        String parkName = mDataSet.get(0).getSearchParkInfoService().getRow()[position].getP_PARK();
-        String parkAddress = mDataSet.get(0).getSearchParkInfoService().getRow()[position].getP_ADDR();
+        String imageUrl = mDataSet.get(position).getP_IMG();
+        String parkName = mDataSet.get(position).getP_PARK();
+        String parkAddress = mDataSet.get(position).getP_ADDR();
+
+        Log.e("CHECK_VIEW", "-------------------"+parkName);
 
         holder.tvParkName.setText(parkName);
         holder.tvParkAddress.setText(parkAddress);
