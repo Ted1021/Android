@@ -10,6 +10,6 @@ import retrofit2.http.Path;
 
 public interface SearchParkInfoService {
 
-    @GET("{Auth_Key}/json/SearchParkInfoService/1/97/")
+    @GET("{Auth_Key}/json/SearchParkInfoService/1/20/")
     Call<ParkData> getParkData (@Path("Auth_Key") String auth_key);
 }
