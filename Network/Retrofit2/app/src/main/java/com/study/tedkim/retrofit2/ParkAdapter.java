@@ -1,6 +1,8 @@
 package com.study.tedkim.retrofit2;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,11 +70,12 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
         String parkName = mDataSet.get(position).getP_PARK();
         String parkAddress = mDataSet.get(position).getP_ADDR();
 
-        Log.e("CHECK_VIEW", "-------------------"+parkName);
+        Log.e("CHECK_VIEW", "-------------------"+imageUrl);
 
         holder.tvParkName.setText(parkName);
         holder.tvParkAddress.setText(parkAddress);
         Glide.with(mContext).load(imageUrl).into(holder.ivParkImage);
+        holder.ivParkImage.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY);
 
     }
 
