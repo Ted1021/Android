@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by tedkim on 2017. 6. 14..
@@ -27,7 +28,13 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
     ArrayList<ParkData.Row> mDataSet = new ArrayList<>();
     LayoutInflater mInflater;
 
-    public ParkAdapter(Context context, int layout, ArrayList<ParkData.Row> dataSet){
+    ArrayList<String> mImageSet = new ArrayList<>(Arrays.asList("http://www.yamanashi-kankou.jp/foreign/korean/spot/images/4062_01.jpg",
+            "https://us.123rf.com/450wm/samarttiw/samarttiw1510/samarttiw151000021/46755280-큰-도시-공원의-녹색-잔디-필드.jpg?ver=6",
+            "http://img.etoday.co.kr/pto_db/2015/11/20151113093448_752102_600_400.jpg",
+            "http://cfile24.uf.tistory.com/image/1855DD4250B4A47C184964",
+            "http://heraldk.com/wp-content/uploads/2016/06/20160630000014_0.jpg"));
+
+    public ParkAdapter(Context context, int layout, ArrayList<ParkData.Row> dataSet) {
 
         mContext = context;
         mLayout = layout;
@@ -37,7 +44,7 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
 
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivParkImage;
         TextView tvParkName, tvParkAddress;
@@ -70,14 +77,14 @@ public class ParkAdapter extends RecyclerView.Adapter<ParkAdapter.ViewHolder> {
         String parkName = mDataSet.get(position).getP_PARK();
         String parkAddress = mDataSet.get(position).getP_ADDR();
 
-        Log.e("CHECK_VIEW", "-------------------"+imageUrl);
+        Log.e("CHECK_VIEW", "-------------------" + imageUrl);
 
         holder.tvParkName.setText(parkName);
         holder.tvParkAddress.setText(parkAddress);
-        Glide.with(mContext).load(imageUrl).into(holder.ivParkImage);
+        Glide.with(mContext).load(mImageSet.get(position%5)).into(holder.ivParkImage);
         holder.ivParkImage.setColorFilter(Color.parseColor("#BDBDBD"), PorterDuff.Mode.MULTIPLY);
 
-    }
+}
 
     @Override
     public int getItemCount() {
