@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:text="alpha animation" />
 
-    <Button
+    <com.navercorp.ted.propertyanimation.LoadingButton
         android:id="@+id/set"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
